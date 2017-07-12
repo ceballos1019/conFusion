@@ -1,0 +1,87 @@
+Install grunt:
+npm install -g grunt-cli (use sudo on Linux)
+
+Install JSHint (Static JS Code Analysis Tool)
+npm install grunt-contrib-jshint --save-dev
+npm install jshint-stylish --save-dev
+
+Create a distribution folder and clean it up
+npm install grunt-contrib-copy --save-dev
+npm install grunt-contrib-clean -save-dev
+
+Prepare the distribution folder
+npm install grunt-contrib-concat --save-dev
+npm install grunt-contrib-cssmin --save-dev
+npm install grunt-contrib-uglify --save-dev
+npm install grunt-contrib-filerev --save-dev
+npm install grunt-contrib-usemin --save-dev
+
+Flow of tasks
+- useminPrepare: prepare a set of file to be used for the remaining tasks
+- concat: concatenate all the CSS and JS files together
+- cssmin: perform the CSS minification task
+- uglify: perform the JS uglification task
+- filerev:  when you create the combined CSS and JavaScript files It is going to
+ attach an additional revision number to this, so that in case a user visits your
+ website and that you've recently modified it, then the user will be served up
+ with the newer CSS and JavaScript files in case they have already cached the
+ older CSS and JavaScript files.By doing file revisioning, you are essentially
+ cancelling the previous cached files and then you are asking the user to
+ redownload the CSS and JavaScript files when they visit your website
+ - usemin: configure your HTML files, so that they will use the concatenated CSS
+ and the JavaScript files in the html files that you create
+
+ Keeps a watch on files and reruns tasks whenever changes occur and livereload
+ npm install grunt-contrib-watch --save-dev
+
+ Start a server to serve the website
+ npm install grunt-contrib-connect --save-dev
+
+package.json for Grunt:
+{
+  "name": "conFusion",
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "del": "^3.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^2.2.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-filerev": "^2.3.1",
+    "grunt-usemin": "^3.1.1",
+    "gulp": "^3.9.1",
+    "gulp-cache": "^0.4.6",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-notify": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-usemin": "^0.3.28",
+    "imagemin": "^5.3.1",
+    "jit-grunt": "^0.10.0",
+    "jshint-stylish": "^2.2.1",
+    "time-grunt": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
+---------------------------------------------------------------------------
+Install gulp (global):
+npm install -g gulp
+
+Instal gulp locally within project:
+npm install gulp --save-dev
+
+Install gulp plugins:
+npm install jshint gulp-jshint jshint-stylish gulp-imagemin gulp-concat
+gulp-uglify gulp-minify-css gulp-usemin gulp-cache gulp-changed gulp-rev
+gulp-rename gulp-notify  browser-sync del --save-dev
