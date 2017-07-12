@@ -72,6 +72,6 @@ angular.module('confusionApp', [])
     /* Toggle between show or not the details*/
     $scope.toggleDetails = function() {
       $scope.showDetails = !$scope.showDetails;
-    }
+    };
 
   }]);
