@@ -79,9 +79,10 @@ $scope.toggleDetails = function() {
   };
 }])
 
-.controller('DishDetailController', ['$scope','menuService', function($scope, menuService) {
+.controller('DishDetailController', ['$scope', '$routeParams', 'menuService', function($scope, $routeParams, menuService) {
 
-  $scope.dish = menuService.getDish(3);
+  var dish = menuService.getDish(parseInt($routeParams.id, 10));
+  $scope.dish = dish;
   $scope.sortType = "";
 
 }])
