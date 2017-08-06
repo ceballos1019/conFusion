@@ -79,9 +79,13 @@ $scope.toggleDetails = function() {
   };
 }])
 
-.controller('DishDetailController', ['$scope', '$routeParams', 'menuService', function($scope, $routeParams, menuService) {
+/* Using ng-route module
+.controller('DishDetailController', ['$scope', '$routeParams', 'menuService', function($scope, $routeParams, menuService) {*/
 
-  var dish = menuService.getDish(parseInt($routeParams.id, 10));
+/*Using ui-router module*/
+.controller('DishDetailController', ['$scope', '$stateParams', 'menuService', function($scope, $stateParams, menuService) {
+
+  var dish = menuService.getDish(parseInt($stateParams.code, 10));
   $scope.dish = dish;
   $scope.sortType = "";
 
