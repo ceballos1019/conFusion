@@ -8,7 +8,14 @@ angular.module('confusionApp')
     $scope.filtText = '';
     $scope.showDetails = false;
 
-    $scope.dishes = menuFactory.getDishes();
+    $scope.dishes = {};
+
+    menuFactory.getDishes()
+      .then(
+        function(response) {
+          $scope.dishes = response.data;
+        }
+      );
 
     /*Select a specific tab*/
     $scope.select = function(setTab) {
@@ -91,8 +98,15 @@ angular.module('confusionApp')
   /*Using ui-router module*/
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuService', function($scope, $stateParams, menuService) {
 
-    var dish = menuService.getDish(parseInt($stateParams.code, 10));
-    $scope.dish = dish;
+    $scope.dish = {};
+
+    menuService.getDish(parseInt($stateParams.code, 10))
+      .then(
+        function(response) {
+          $scope.dish = response.data;
+        }
+      );
+
     $scope.sortType = "";
 
   }])
@@ -128,14 +142,29 @@ angular.module('confusionApp')
 
   .controller('IndexController', ['$scope', 'menuService', 'corporateFactory',
     function($scope, menuService, corporateFactory) {
-      var dish = menuService.getDish(0);
-      var promotion = menuService.getPromotion(0);
-      var chef = corporateFactory.getLeader(3);
+      /*Initialize local variables*/
+      $scope.dish = {};
+      $scope.promotion = {};
+      $scope.chef = {};
 
-      $scope.dish = dish;
-      $scope.promotion = promotion;
-      $scope.chef = chef;
+      /*Call the services*/
+      menuService.getDish(0).then(
+        function(response) {
+          $scope.dish = response.data;
+        }
+      );
 
+      menuService.getPromotion(0).then(
+        function(response) {
+          $scope.promotion = response.data;
+        }
+      );
+
+      corporateFactory.getLeader(3).then(
+        function(response) {
+          $scope.chef = response.data;
+        }
+      );
     }
   ])
 
