@@ -4,16 +4,23 @@ angular.module('confusionApp')
 
   .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
 
+    /*Variables*/
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showDetails = false;
-
+    $scope.showMenu = false;
+    $scope.message = "Loading...";
     $scope.dishes = {};
 
+    /*Call the service*/
     menuFactory.getDishes()
       .then(
-        function(response) {
+        function onSuccess(response) {
           $scope.dishes = response.data;
+          $scope.showMenu = true;
+        },
+        function onError(response) {
+          $scope.message = "Error: " + response.status + " " + response.statusText;
         }
       );
 
@@ -99,11 +106,16 @@ angular.module('confusionApp')
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuService', function($scope, $stateParams, menuService) {
 
     $scope.dish = {};
-
+    $scope.showDish = false;
+    $scope.message = "Loading...";
     menuService.getDish(parseInt($stateParams.code, 10))
       .then(
-        function(response) {
+        function onSuccess(response) {
           $scope.dish = response.data;
+          $scope.showDish = true;
+        },
+        function onError(response) {
+          $scope.message = "Error: " + response.status + " " + response.statusText;
         }
       );
 
@@ -146,11 +158,17 @@ angular.module('confusionApp')
       $scope.dish = {};
       $scope.promotion = {};
       $scope.chef = {};
+      $scope.showDish = false;
+      $scope.message = "Loading...";
 
       /*Call the services*/
       menuService.getDish(0).then(
         function(response) {
           $scope.dish = response.data;
+          $scope.showDish = true;
+        },
+        function(response) {
+          $scope.message = "Error: " + response.status + " " + response.statusText;
         }
       );
 
