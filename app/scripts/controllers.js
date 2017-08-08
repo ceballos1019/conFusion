@@ -2,7 +2,7 @@
 
 angular.module('confusionApp')
 
-  .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
+  .controller('MenuController', ['$scope', 'menuService', function($scope, menuService) {
 
     /*Variables*/
     $scope.tab = 1;
@@ -10,19 +10,17 @@ angular.module('confusionApp')
     $scope.showDetails = false;
     $scope.showMenu = false;
     $scope.message = "Loading...";
-    $scope.dishes = {};
 
-    /*Call the service*/
-    menuFactory.getDishes()
-      .then(
-        function onSuccess(response) {
-          $scope.dishes = response.data;
-          $scope.showMenu = true;
-        },
-        function onError(response) {
-          $scope.message = "Error: " + response.status + " " + response.statusText;
-        }
-      );
+    //query() returns the entire array from that particular api
+    menuService.getDishes().query(
+      function(response) {
+        $scope.dishes = response;
+        $scope.showMenu = true;
+      },
+      function(response) {
+        $scope.message = "Error: " + response.status + " " + response.statusText;
+      }
+    );
 
     /*Select a specific tab*/
     $scope.select = function(setTab) {
@@ -105,25 +103,22 @@ angular.module('confusionApp')
   /*Using ui-router module*/
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuService', function($scope, $stateParams, menuService) {
 
-    $scope.dish = {};
     $scope.showDish = false;
     $scope.message = "Loading...";
-    menuService.getDish(parseInt($stateParams.code, 10))
-      .then(
-        function onSuccess(response) {
-          $scope.dish = response.data;
-          $scope.showDish = true;
-        },
-        function onError(response) {
-          $scope.message = "Error: " + response.status + " " + response.statusText;
-        }
-      );
-
+    menuService.getDishes().get({id : parseInt($stateParams.code, 10)}).$promise.then(
+      function(response) {
+        $scope.dish = response;
+        $scope.showDish = true;
+      },
+      function(response) {
+        $scope.message = "Error: " + response.status + " " + response.statusText;
+      }
+    );
     $scope.sortType = "";
 
   }])
 
-  .controller('DishCommentController', ['$scope', function($scope) {
+  .controller('DishCommentController', ['$scope', 'menuService', function($scope, menuService) {
 
     $scope.comment = {
       rating: 5,
@@ -136,9 +131,9 @@ angular.module('confusionApp')
 
       //Step 2: This is how you record the date
       $scope.comment.date = new Date().toISOString();
-
       // Step 3: Push your comment into the dish's comment array
       $scope.dish.comments.push($scope.comment);
+      menuService.getDishes().update({id:$scope.dish.id}, $scope.dish);
 
       //Step 4: reset your form to pristine
       $scope.commentForm.$setPristine();
@@ -155,26 +150,19 @@ angular.module('confusionApp')
   .controller('IndexController', ['$scope', 'menuService', 'corporateFactory',
     function($scope, menuService, corporateFactory) {
       /*Initialize local variables*/
-      $scope.dish = {};
-      $scope.promotion = {};
+
+      $scope.promotion = menuService.getPromotion(0);
       $scope.chef = {};
       $scope.showDish = false;
       $scope.message = "Loading...";
 
-      /*Call the services*/
-      menuService.getDish(0).then(
+      menuService.getDishes().get({id : 0}).$promise.then(
         function(response) {
-          $scope.dish = response.data;
+          $scope.dish = response;
           $scope.showDish = true;
         },
         function(response) {
           $scope.message = "Error: " + response.status + " " + response.statusText;
-        }
-      );
-
-      menuService.getPromotion(0).then(
-        function(response) {
-          $scope.promotion = response.data;
         }
       );
 

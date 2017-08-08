@@ -4,7 +4,7 @@ angular.module('confusionApp')
 
   .constant('baseURL', 'http://localhost:3000/')
 
-  /*Using factory*/
+  /*Using factory and $http*/
   .factory('menuFactory', ['$http', 'baseURL', function($http, baseURL) {
 
     var menufac = {};
@@ -24,17 +24,27 @@ angular.module('confusionApp')
     return menufac;
   }])
 
-  /*Using service*/
-  .service('menuService', ['$http', 'baseURL', function($http, baseURL) {
+  /*Using service and $resource module*/
+  .service('menuService', ['$resource', 'baseURL', function($resource, baseURL) {
 
+    /*Only need this method to get all dishes or a specific one*/
     this.getDishes = function() {
-      return $http.get(baseURL + "dishes");
+      return $resource(baseURL + "dishes/:id", null, {'update' : {method : 'PUT'}});
     };
-    this.getDish = function(index) {
-      return $http.get(baseURL + "dishes/" + index);
-    };
+
+    var promotions = [
+    {
+      "id": 0,
+      "name": "Weekend Grand Buffet",
+      "image": "images/buffet.png",
+      "label": "New",
+      "price": "19.99",
+      "description": "Featuring mouthwatering combinations with a choice of five different salads, six enticing appetizers, six main entrees and five choicest desserts. Free flowing bubbly and soft drinks. All for just $19.99 per person "
+    }
+  ];
+
     this.getPromotion = function(index) {
-      return $http.get(baseURL + "promotions/" + index);
+      return promotions[index];
     };
   }])
 
