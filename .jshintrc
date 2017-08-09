@@ -8,9 +8,22 @@
   "noarg": true,
   "node": true,
   "strict": true,
+  "jasmine": true,
   "undef": true,
   "unused": true,
   "globals": {
-    "angular": false
+
+    "angular": false,
+    "describe": false,
+    "it": false,
+    "before": false,
+    "beforeEach": false,
+    "after": false,
+    "afterEach": false,
+    "expect": false,
+    "inject": false,
+    "browser": false,
+    "element": false,
+    "by": false
   }
 }
