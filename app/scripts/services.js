@@ -37,7 +37,7 @@ angular.module('confusionApp')
     };
   }])
 
-  .factory('corporateFactory', ['$http', 'baseURL', function($http, baseURL) {
+  .factory('corporateFactory', ['$http', '$resource', 'baseURL', function($http, $resource, baseURL) {
 
     var corpfac = {};
 
@@ -46,8 +46,9 @@ angular.module('confusionApp')
     // Remember this is a factory not a service
 
     corpfac.getLeaders = function() {
-      return $http.get(baseURL + "leadership");
+      return $resource(baseURL + "leadership/:id", null, {'update' : {method : 'PUT'}});
     };
+    
     corpfac.getLeader = function(index) {
       return $http.get(baseURL + "leadership/" + index);
     };

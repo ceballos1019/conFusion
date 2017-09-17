@@ -163,7 +163,7 @@ angular.module('confusionApp')
         function(response) {
           $scope.message = "Error: " + response.status + " " + response.statusText;
         }
-      );   
+      );
 
       menuService.getPromotions().get({id : 0}).$promise.then(
         function(response) {
@@ -180,5 +180,9 @@ angular.module('confusionApp')
   ])
 
   .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
-    $scope.leaders = corporateFactory.getLeaders();
+    corporateFactory.getLeaders().query(
+      function(response) {
+        $scope.leaders = response;
+      }
+    );
   }]);
