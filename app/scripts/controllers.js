@@ -151,7 +151,6 @@ angular.module('confusionApp')
     function($scope, menuService, corporateFactory) {
       /*Initialize local variables*/
 
-      $scope.promotion = menuService.getPromotion(0);
       $scope.chef = {};
       $scope.showDish = false;
       $scope.message = "Loading...";
@@ -163,6 +162,12 @@ angular.module('confusionApp')
         },
         function(response) {
           $scope.message = "Error: " + response.status + " " + response.statusText;
+        }
+      );   
+
+      menuService.getPromotions().get({id : 0}).$promise.then(
+        function(response) {
+          $scope.promotion = response;
         }
       );
 
