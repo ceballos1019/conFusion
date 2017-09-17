@@ -48,11 +48,17 @@ angular.module('confusionApp')
     corpfac.getLeaders = function() {
       return $resource(baseURL + "leadership/:id", null, {'update' : {method : 'PUT'}});
     };
-    
+
     corpfac.getLeader = function(index) {
       return $http.get(baseURL + "leadership/" + index);
     };
 
     return corpfac;
 
+  }])
+
+  .service('feedbackService', ['$resource', 'baseURL', function($resource, baseURL) {
+    this.createFeedback = function() {
+      return $resource(baseURL + 'feedback', null);
+    };
   }]);
